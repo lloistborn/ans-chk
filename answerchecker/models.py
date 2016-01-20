@@ -15,7 +15,7 @@ class Siswa(models.Model):
 		return self.nama
 
 	nama = models.CharField(max_length = 50)
-	nomor_induk = models.IntegerField(default = 0)
+	nomor_induk = models.CharField(max_length = 20)
 	tanggal_reg = models.DateTimeField('tanggal registrasi')
 		
 class Hasil(models.Model):

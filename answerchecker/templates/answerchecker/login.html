@@ -1,0 +1,12 @@
+{% extends "answerchecker/base.html" %}
+
+{% block content %}
+	<form class="form-signin" method="POST" action="{% url 'login' %}"> {% csrf_token %}
+		{{ form.nomor_induk.label_tag }}
+		{{ form.nomor_induk }}
+		
+		<input type="submit" value="login" class="btn btn-primary">
+		<input type="hidden" name="next" class="btn" value="{{ next }}">
+	</form>
+	
+{% endblock content %}
