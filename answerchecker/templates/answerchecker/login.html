@@ -1,6 +1,9 @@
 {% extends "answerchecker/base.html" %}
 
 {% block content %}
+	{% if form.errors %}
+		<p>Nomor induk tidak terdaftar</p>
+	{% endif %}
 	<form class="form-signin" method="POST" action="{% url 'login' %}"> {% csrf_token %}
 		{{ form.nomor_induk.label_tag }}
 		{{ form.nomor_induk }}

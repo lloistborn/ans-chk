@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 
 from .forms import SigninForm
@@ -16,7 +16,36 @@ def login_view(request):
 		})
 
 def login(request):
-	# create logic here when user loging in
+	if request.method != 'POST':
+		raise Http404('Not allowed')
+	try:
+		siswa = Siswa.objects.get(nomor_induk = request.POST['nomor_induk'])
+		request.session['id_siswa'] = siswa.nomor_induk
 
-# def memulai(request):
-	
+		return redirect('memulai')
+	except Siswa.DoesNotExist:
+		return HttpResponse('Siswa tidak terdaftar')
+
+def logout(request):
+	try:
+		del request.session['id_siswa']
+	except KeyError:
+		pass	
+	return HttpResponse('Logged out')
+
+def memulai(request):
+	title_page = 'Simulasi soal'
+	id_siswa = request.session['id_siswa']
+
+	try:
+		soal = Soal.objects.get()
+	except Soal.DoesNotExist:
+		return HttpResponse('Daftar soal %d', Soal.objects.count())
+
+	return render(
+		request, 
+		'answerchecker/mulai.html', {
+			'title_page': title_page,
+			'id_siswa': id_siswa,
+			'soal': soal,
+		})
