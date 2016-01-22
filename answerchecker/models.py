@@ -25,4 +25,5 @@ class Hasil(models.Model):
 
 	siswa = models.ForeignKey(Siswa, on_delete = models.CASCADE)
 	soal = models.ForeignKey(Soal, on_delete = models.CASCADE)
+	jawaban = models.TextField()
 	skor = models.FloatField(default = 0.0)
