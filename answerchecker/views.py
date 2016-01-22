@@ -38,9 +38,9 @@ def memulai(request):
 	id_siswa = request.session['id_siswa']
 
 	try:
-		soal = Soal.objects.get()
+		soal = Soal.objects.all()
 	except Soal.DoesNotExist:
-		return HttpResponse('Daftar soal %d', Soal.objects.count())
+		return HttpResponse('Soal tidak tersedia')
 
 	return render(
 		request, 
