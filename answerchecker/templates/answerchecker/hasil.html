@@ -1,0 +1,24 @@
+{% extends "answerchecker/base.html" %}
+
+{% block content %}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Jawaban Asli</th>
+				<th>Jawaban User</th>
+				<th>Kemiripan</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for h in hasil %}
+			<tr>
+				<td>{{ h.soal.jawaban }}</td>
+				<td>{{ h.jawaban }}</td>
+				<td>{{ h.skor }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+		
+		
+	</table>
+{% endblock content %}

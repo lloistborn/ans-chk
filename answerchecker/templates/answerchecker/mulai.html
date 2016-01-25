@@ -2,9 +2,9 @@
 
 {% block content %}
 	<div class="panel-body">
-        <form name="basicform" id="basicform" method="post" action="yourpage.html">
+        <form id="FormJawaban" method="POST" action="{% url 'get_skor' %}"> {% csrf_token %}
         	{% for s in soal %}
-        		{% if s.id > 1 %}
+        		{% if not forloop.first %}
         			<div id="sf{{ forloop.counter }}" class="frm" style="display: none;">
         		{% else %}
         			<div id="sf{{ forloop.counter }}" class="frm">
@@ -15,15 +15,23 @@
 		                    <div class="clearfix" style="height: 10px;clear: both;"></div>
 		                    
 		                   	<div class="form-group">
-							  	<label for="jawaban">Jawaban:</label>
-							  	<textarea class="form-control" rows="5" id="comment"></textarea>
+							  	{# {{ form.as_p }} #}
+							  	<textarea class="form-control" rows="5" id="jawaban{{ forloop.counter }}" name="jawaban{{ forloop.counter }}"></textarea> 
+
 							</div>
 
 		                    <div class="clearfix" style="height: 10px;clear: both;"></div>
 
 		                    <div class="form-group">
-		                        <button class="btn btn-warning back2" type="button"><span class="fa fa-arrow-left"></span> Back</button> 
-		                        <button class="btn btn-primary open2" type="button">Submit </button> 
+		                    	{% if not forloop.first %}
+		                        	<button class="btn btn-warning back{{ forloop.counter }}" type="button"><span class="fa fa-arrow-left"></span> Kembali</button> 
+		                    	{% endif %}
+
+		                    	{% if not forloop.last %}	
+	                        		<button class="btn btn-primary open{{ forloop.counter }}" type="button">Lanjutkan </button>				
+                        		{% else %} 
+                        			<input class="btn btn-primary" type="submit" value="Submit">
+                        		{% endif %}
 		                    </div>
 
 		                </fieldset>
