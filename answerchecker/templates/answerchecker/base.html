@@ -23,18 +23,18 @@
 				</button>
 				<a class="navbar-brand" href="#"><font color="#DB0A5B">Answer Checker</font></a>
 			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					{% if id_siswa %}
-						<li><a href="{% url 'answerchecker.views.logout' %}">Logout</a></li>
+			<div class="navbar-header pull-right">
+	          <p class="navbar-text">
+	          	{% if id_siswa %}
+					Hellaw, {{ nama_siswa }}
+					<a href="{% url 'answerchecker.views.logout' %}" class="navbar-link">
+						(logout)
+					</a>
 					{% else %}
-						<li><a href="">Login</a></li>
+						<a href="">Login</a>
 					{% endif %}
-				</ul>
-			</div><!--/.nav-collapse -->
+	          </p>  
+	        </div>
 		</div>
 	</nav>
 

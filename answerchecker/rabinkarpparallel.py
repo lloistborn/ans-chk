@@ -11,7 +11,7 @@ class RabinKarpParallel(ISimilarity):
 	def sub_search(self, x, y, subpat, txt):
 		pattern = subpat.split()
 		# print '\npattern'
-		# print pattern
+		print(pattern)
 
 		patlen = len(pattern)
 		txtlen = len(txt)
@@ -59,25 +59,27 @@ class RabinKarpParallel(ISimilarity):
 		return 0
 
 	def full_search(self, x, y, pat, txt):
-		# print 'TEXT = %s ' %txt
+		# print('TEXT = %s ' %txt)
 
 		found = 0
 		pattern = pat
 		
-		for i in range(x, y - 4):
-			# print 'index[%d] %s ' %(i, pattern[i])
+		for i in range(x, y - 2):
+			print ('index[%d] %s ' %(i, pattern[i]))
 
 			if self.sub_search(x, y, pattern[i], txt):
+				print(pattern[i])
 				found += 1
 
 		# print "\n"
 
 		return found
 
-	def sim_measure(self, x, y, pat, txt, R,):
-		# l.acquire()
+	def sim_measure(self, x, y, pat, txt, R, l,):
+		l.acquire()
 
 		# print "%d" %len(txt)
+		print("first")
 
 		intersect = 0
 		similarity = 0
@@ -88,8 +90,9 @@ class RabinKarpParallel(ISimilarity):
 		# print intersect
 
 		similarity = 1 - ((txtlen - intersect) / txtlen)
-		# print similarity
+		# print("%f = 1 - ((%d - %d) / %d)" %(similarity, txtlen, intersect, txtlen))
+		# print("sim_measure %f" % similarity)
 
 		R.put(similarity)
 
-		# l.release()
+		l.release()

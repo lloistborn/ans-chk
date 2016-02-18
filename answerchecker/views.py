@@ -69,7 +69,7 @@ def get_skor(request):
 		k = 3
 		processes = []
 		R = Queue()
-		# L = Lock()
+		L = Lock()
 		similarity = 0
 
 		for i, s in enumerate(soal):
@@ -92,15 +92,17 @@ def get_skor(request):
 			d = int((patlen - 5 + 1) / k + 1)
 
 			pattern = shl.wordshingling(pattern)
+			print("pattern first")
+			print(pattern)
 
 			for j in range(k - 1):
-				# print '[%d][%d]' %(int(d * j), int((j + 1) * d) + 5 - 1)
-				p = Process(target=prk.sim_measure, args=(int(d * j), int((j+1) * d) + 5 - 1, pattern, txt, R,)) 
+				print('[%d][%d]' %(int(d * j), int((j + 1) * d) + 5 - 1))
+				p = Process(target=prk.sim_measure, args=(int(d * j), int((j+1) * d) + 5 - 1, pattern, txt, R, L, )) 
 				processes.append(p)
 				p.start()
 
-			# print '[%d][%d]' %(int(d * (k-1)), patlen)
-			p = Process(target=prk.sim_measure, args=(int(d * (k-1)), patlen, pattern, txt, R,)) 
+			print('[%d][%d]' %(int(d * (k-1)), patlen))
+			p = Process(target=prk.sim_measure, args=(int(d * (k-1)), patlen, pattern, txt, R, L,)) 
 			processes.append(p)
 			p.start()
 
@@ -108,8 +110,8 @@ def get_skor(request):
 				pr.join()
 
 			while not R.empty():
-				# print similarity
 				similarity += R.get()
+				print(similarity)
 
 			similarity = round(similarity * 100)
 						
@@ -126,7 +128,10 @@ def get_skor(request):
 			similarity = 0
 			# print(i)
 
+
+
 	return render(request, 'answerchecker/hasil.html', {
-		'hasil'		: Hasil.objects.filter(siswa = Siswa.objects.get(id=request.session['pk'])),
-		'id_siswa'	: request.session['pk'],
+		'hasil'			: Hasil.objects.filter(siswa = Siswa.objects.get(id=request.session['pk'])),
+		'id_siswa'		: request.session['pk'],
+		'nama_siswa'	: Siswa.objects.get(id=request.session['pk']),
 	})
