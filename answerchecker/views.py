@@ -55,6 +55,7 @@ def memulai(request):
 			'title_page'	: title_page,
 			'id_siswa'		: pk,
 			'soal'			: soal,
+			'nama_siswa'	: Siswa.objects.get(id=request.session['pk']),
 		})
 
 def get_skor(request):

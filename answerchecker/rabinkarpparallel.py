@@ -2,13 +2,14 @@ from __future__ import division
 
 from .shingle import Shingle
 from .isimilarity import ISimilarity
+from .synonym import Synonym
 
 class RabinKarpParallel(ISimilarity):
 	q = 1079
 	# d = 26
 	s = Shingle()
 
-	def sub_search(self, x, y, subpat, txt):
+	def sub_search(self, subpat, txt):
 		pattern = subpat.split()
 		# print '\npattern'
 		print(pattern)
@@ -63,13 +64,22 @@ class RabinKarpParallel(ISimilarity):
 
 		found = 0
 		pattern = pat
+		# s = Synonym()
+
+		# with open('answerchecker/media/tbipb1.dict', encoding='utf-8') as a_file:
+		# 	content = a_file.read()
+		# synonym = content.splitlines()
 		
 		for i in range(x, y - 2):
 			print ('index[%d] %s ' %(i, pattern[i]))
 
-			if self.sub_search(x, y, pattern[i], txt):
+			if self.sub_search(pattern[i], txt):
 				print(pattern[i])
 				found += 1
+			# elif s.is_found(pattern[i], txt, synonym): # synonym checker
+				 # print('-------------synonym------------')
+				 # print(pattern[i])
+				 # found += 1
 
 		# print "\n"
 
