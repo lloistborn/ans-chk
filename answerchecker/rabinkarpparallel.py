@@ -9,7 +9,7 @@ class RabinKarpParallel(ISimilarity):
 	# d = 26
 	s = Shingle()
 
-	def sub_search(self, subpat, txt):
+	def sub_search(self, subpat, txt, s, synonym):
 		pattern = subpat.split()
 		# print '\npattern'
 		print(pattern)
@@ -53,6 +53,12 @@ class RabinKarpParallel(ISimilarity):
 						break
 					if j == patlen - 1:
 						return 1
+			else: # synonym checker
+				for j in range (patlen):
+					if txt[i + j] != pattern[j] or not s.is_found(txt[i+j], pattern[j], synonym):
+						break
+					if j == patlen - 1:
+						return 1
 
 			if i < txtlen - patlen:				
 				hashtxt = ((hashtxt - hash(txt[i])) + hash(txt[i+patlen])) % self.q		
@@ -64,23 +70,18 @@ class RabinKarpParallel(ISimilarity):
 
 		found = 0
 		pattern = pat
-		# s = Synonym()
+		s = Synonym()
 
-		# with open('answerchecker/media/tbipb1.dict', encoding='utf-8') as a_file:
-		# 	content = a_file.read()
-		# synonym = content.splitlines()
+		with open('answerchecker/media/tbipb1.dict', encoding='utf-8') as a_file:
+			content = a_file.read()
+		synonym = content.splitlines()
 		
 		for i in range(x, y - 2):
 			print ('index[%d] %s ' %(i, pattern[i]))
 
-			if self.sub_search(pattern[i], txt):
+			if self.sub_search(pattern[i], txt, s, synonym):
 				print(pattern[i])
 				found += 1
-			# elif s.is_found(pattern[i], txt, synonym): # synonym checker
-				 # print('-------------synonym------------')
-				 # print(pattern[i])
-				 # found += 1
-
 		# print "\n"
 
 		return found
